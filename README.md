@@ -31,7 +31,12 @@ bool status = await WhatsappAccessibilityService.requestAccessibilityPermission(
 bool status = await WhatsappAccessibilityService.isAccessibilityPermissionEnabled();
 ```
 
-# to toggle service
+# to enable/disable service
 ```
-await WhatsappAccessibilityService.toggleService();
+await WhatsappAccessibilityService.setServiceEnabled();
+```
+
+# to set custom suffix (on which auto click will work)
+```
+await WhatsappAccessibilityService.setCustomSuffix();
 ```
