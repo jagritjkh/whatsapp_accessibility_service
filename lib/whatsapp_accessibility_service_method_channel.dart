@@ -23,11 +23,9 @@ class MethodChannelWhatsappAccessibilityService
   /// method channel method which connects with native to request accessibility permission
   /// it will open the accessibility settings page and return `true` once the permission granted.
   @override
-  Future<bool> requestAccessibilityPermission(String suffix) async {
+  Future<bool> requestAccessibilityPermission() async {
     try {
-      var arguments = {"suffix": suffix};
-      return await methodChannel.invokeMethod(
-          'requestAccessibilityPermission', arguments);
+      return await methodChannel.invokeMethod('requestAccessibilityPermission');
     } on PlatformException catch (error) {
       log(error.toString());
       return Future.value(false);
@@ -62,6 +60,17 @@ class MethodChannelWhatsappAccessibilityService
   Future<String> getSuffix() async {
     try {
       return await methodChannel.invokeMethod('getSuffix');
+    } on PlatformException catch (error) {
+      log(error.toString());
+      return "false";
+    }
+  }
+
+  @override
+  Future<String> setCustomSuffix(String suffix) async {
+    try {
+      var arguments = {"suffix": suffix};
+      return await methodChannel.invokeMethod('setCustomSuffix', arguments);
     } on PlatformException catch (error) {
       log(error.toString());
       return "false";

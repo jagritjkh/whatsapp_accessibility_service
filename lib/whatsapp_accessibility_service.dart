@@ -1,20 +1,16 @@
-import 'package:whatsapp_accessibility_service/constants/constants.dart';
-
 import 'whatsapp_accessibility_service_platform_interface.dart';
 
 ///
 class WhatsappAccessibilityService {
-
   Future<String?> getPlatformVersion() {
     return WhatsappAccessibilityServicePlatform.instance.getPlatformVersion();
   }
 
   /// request accessibility permission
   /// it will open the accessibility settings page and return `true` once the permission granted.
-  static Future<bool> requestAccessibilityPermission([String? suffix]) async {
-    suffix ??= Constants.kSuffix;
+  static Future<bool> requestAccessibilityPermission() async {
     return WhatsappAccessibilityServicePlatform.instance
-        .requestAccessibilityPermission(suffix);
+        .requestAccessibilityPermission();
   }
 
   /// check if accessibility permission is enabled
@@ -33,5 +29,12 @@ class WhatsappAccessibilityService {
   /// for eg. by default it is "          "
   static Future<String> getSuffix() async {
     return WhatsappAccessibilityServicePlatform.instance.getSuffix();
+  }
+
+  /// set custom suffix on which the service will work
+  /// for eg. by default it is "          "
+  static Future<String> setCustomSuffix(String suffix) async {
+    return WhatsappAccessibilityServicePlatform.instance
+        .setCustomSuffix(suffix);
   }
 }

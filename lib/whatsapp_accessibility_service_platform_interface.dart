@@ -28,7 +28,7 @@ abstract class WhatsappAccessibilityServicePlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<bool> requestAccessibilityPermission(String suffix) {
+  Future<bool> requestAccessibilityPermission() {
     throw UnimplementedError(
         'requestAccessibilityPermission() has not been implemented.');
   }
@@ -44,5 +44,9 @@ abstract class WhatsappAccessibilityServicePlatform extends PlatformInterface {
 
   Future<String> getSuffix() {
     throw UnimplementedError('getSuffix() has not been implemented.');
+  }
+
+  Future<String> setCustomSuffix(String suffix) {
+    throw UnimplementedError('setCustomSuffix() has not been implemented.');
   }
 }

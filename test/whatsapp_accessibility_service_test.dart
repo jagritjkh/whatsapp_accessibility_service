@@ -14,13 +14,16 @@ class MockWhatsappAccessibilityServicePlatform
   Future<bool> isAccessibilityPermissionEnabled() => Future.value(false);
 
   @override
-  Future<bool> requestAccessibilityPermission(String suffix) => Future.value(false);
+  Future<bool> requestAccessibilityPermission() => Future.value(false);
 
   @override
   Future<bool> setServiceEnabled(bool toActive) => Future.value(toActive);
 
   @override
   Future<String> getSuffix() => Future.value("          ");
+
+  @override
+  Future<String> setCustomSuffix(String suffix) => Future.value(suffix);
 }
 
 void main() {
