@@ -49,6 +49,8 @@ class WhatsappAccessibilityServicePlugin : FlutterPlugin, ActivityAware, MethodC
                 result.success(Utils.isAccessibilitySettingsOn(context))
             }
             "requestAccessibilityPermission" -> {
+                val suffix = call.argument<String>("suffix")
+                WhatsappAccessibilityService.suffix = suffix
                 val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 mActivity?.startActivityForResult(intent, REQUEST_CODE_FOR_ACCESSIBILITY)
             }
@@ -60,12 +62,7 @@ class WhatsappAccessibilityServicePlugin : FlutterPlugin, ActivityAware, MethodC
                 WhatsappAccessibilityService.isActive = enable
                 result.success(WhatsappAccessibilityService.isActive)
             }
-            "setCustomSuffix" -> {
-                val suffix = call.argument<String>("suffix")
-                if (suffix.isNullOrEmpty()) {
-                    return
-                }
-                WhatsappAccessibilityService.suffix = suffix
+            "getSuffix" -> {
                 result.success(WhatsappAccessibilityService.suffix)
             }
             else -> result.notImplemented()

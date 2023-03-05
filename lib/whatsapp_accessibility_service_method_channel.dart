@@ -20,19 +20,21 @@ class MethodChannelWhatsappAccessibilityService
     return version;
   }
 
-  /// request accessibility permission
+  /// method channel method which connects with native to request accessibility permission
   /// it will open the accessibility settings page and return `true` once the permission granted.
   @override
-  Future<bool> requestAccessibilityPermission() async {
+  Future<bool> requestAccessibilityPermission(String suffix) async {
     try {
-      return await methodChannel.invokeMethod('requestAccessibilityPermission');
+      var arguments = {"suffix": suffix};
+      return await methodChannel.invokeMethod(
+          'requestAccessibilityPermission', arguments);
     } on PlatformException catch (error) {
       log(error.toString());
       return Future.value(false);
     }
   }
 
-  /// check if accessibility permission is enabled
+  /// method channel method which connects with native to check if accessibility permission is enabled
   @override
   Future<bool> isAccessibilityPermissionEnabled() async {
     try {
@@ -44,14 +46,12 @@ class MethodChannelWhatsappAccessibilityService
     }
   }
 
+  /// method channel method which connects with native to set service enabled/disabled
   @override
   Future<bool> setServiceEnabled(bool enable) async {
     try {
       var arguments = {"enable": enable};
-      bool isActive =
-          await methodChannel.invokeMethod('setServiceEnabled', arguments);
-      log(isActive.toString());
-      return isActive;
+      return await methodChannel.invokeMethod('setServiceEnabled', arguments);
     } on PlatformException catch (error) {
       log(error.toString());
       return false;
@@ -59,13 +59,9 @@ class MethodChannelWhatsappAccessibilityService
   }
 
   @override
-  Future<String> setCustomSuffix(String suffix) async {
+  Future<String> getSuffix() async {
     try {
-      var arguments = {"suffix": suffix};
-      String suffixReceived =
-          await methodChannel.invokeMethod('setCustomSuffix', arguments);
-      log(suffix.toString());
-      return suffixReceived;
+      return await methodChannel.invokeMethod('getSuffix');
     } on PlatformException catch (error) {
       log(error.toString());
       return "false";
