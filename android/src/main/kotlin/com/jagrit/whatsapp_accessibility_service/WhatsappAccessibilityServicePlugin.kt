@@ -51,8 +51,12 @@ class WhatsappAccessibilityServicePlugin : FlutterPlugin, ActivityAware, MethodC
             "requestAccessibilityPermission" -> {
                 val suffix = call.argument<String>("suffix")
                 WhatsappAccessibilityService.suffix = suffix
-                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                mActivity?.startActivityForResult(intent, REQUEST_CODE_FOR_ACCESSIBILITY)
+                if (!Utils.isAccessibilitySettingsOn(context)) {
+                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                    mActivity?.startActivityForResult(intent, REQUEST_CODE_FOR_ACCESSIBILITY)
+                } else {
+                    result.success(Utils.isAccessibilitySettingsOn(context))
+                }
             }
             "setServiceEnabled" -> {
                 val enable = call.argument<Boolean>("enable")
