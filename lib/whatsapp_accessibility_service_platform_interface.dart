@@ -49,4 +49,8 @@ abstract class WhatsappAccessibilityServicePlatform extends PlatformInterface {
   Future<String> setCustomSuffix(String suffix) {
     throw UnimplementedError('setCustomSuffix() has not been implemented.');
   }
+
+  Future<String> setMessage(String message) {
+    throw UnimplementedError('setMessage() has not been implemented.');
+  }
 }

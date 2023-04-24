@@ -3,6 +3,7 @@ package com.jagrit.whatsapp_accessibility_service
 import android.accessibilityservice.AccessibilityService
 import android.annotation.TargetApi
 import android.os.Build
+import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 
@@ -12,6 +13,7 @@ class WhatsappAccessibilityService : AccessibilityService() {
     companion object {
         var isActive: Boolean = false
         var suffix: String = "          "
+        var message: String = ""
     }
 
     override fun onAccessibilityEvent(accessibilityEvent: AccessibilityEvent) {
@@ -24,6 +26,37 @@ class WhatsappAccessibilityService : AccessibilityService() {
                     rootInActiveWindow
                 )
 
+                if (message.length == 0 || !message.endsWith(suffix)) {
+                    return
+                }
+
+                // caption field id
+                val captionNodeInfoList =
+                    rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/caption")
+                if (captionNodeInfoList != null && !captionNodeInfoList.isEmpty()) {
+                    val captionField = captionNodeInfoList[0]
+                    if (captionField != null) {
+                        val sendMediaNodeInfoList =
+                            rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/send")
+                        if (sendMediaNodeInfoList != null && !sendMediaNodeInfoList.isEmpty()) {
+                            val sendMediaButton = sendMediaNodeInfoList[0]
+                            if (sendMediaButton.isVisibleToUser) {
+                                sendMediaButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                            }
+                        }
+                    }
+                }
+
+                val shareWithInfoList =
+                    rootInActiveWindow.findAccessibilityNodeInfosByViewId("android:id/button1")
+                if (shareWithInfoList != null && !shareWithInfoList.isEmpty()) {
+                    val okButton = shareWithInfoList[0]
+                    if (okButton.isVisibleToUser) {
+                        okButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    }
+                }
+
+
                 // text field id
                 val messageNodeInfoList =
                     rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.whatsapp:id/entry")
@@ -31,11 +64,16 @@ class WhatsappAccessibilityService : AccessibilityService() {
                     return
                 }
                 val textField = messageNodeInfoList[0]
-                if (textField == null || textField.text.length == 0 || !textField.text.toString()
-                        .endsWith(suffix)
-                ) {
+                if (textField == null) {
                     return
                 }
+
+                val arguments = Bundle();
+                arguments.putCharSequence(
+                    AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
+                    message
+                );
+                textField.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
 
                 // Whatsapp send button id
                 val sendMessageNodeInfoList =

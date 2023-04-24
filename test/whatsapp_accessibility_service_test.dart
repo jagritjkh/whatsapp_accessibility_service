@@ -24,6 +24,9 @@ class MockWhatsappAccessibilityServicePlatform
 
   @override
   Future<String> setCustomSuffix(String suffix) => Future.value(suffix);
+
+  @override
+  Future<String> setMessage(String message) => Future.value(message);
 }
 
 void main() {

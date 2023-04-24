@@ -37,4 +37,10 @@ class WhatsappAccessibilityService {
     return WhatsappAccessibilityServicePlatform.instance
         .setCustomSuffix(suffix);
   }
+
+  /// set message to be send to whatsapp contact or group
+  static Future<String> setMessage(String message) async {
+    return WhatsappAccessibilityServicePlatform.instance
+        .setMessage(message);
+  }
 }

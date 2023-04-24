@@ -76,4 +76,15 @@ class MethodChannelWhatsappAccessibilityService
       return "false";
     }
   }
+
+  @override
+  Future<String> setMessage(String message) async {
+    try {
+      var arguments = {"message": message};
+      return await methodChannel.invokeMethod('setMessage', arguments);
+    } on PlatformException catch (error) {
+      log(error.toString());
+      return "false";
+    }
+  }
 }

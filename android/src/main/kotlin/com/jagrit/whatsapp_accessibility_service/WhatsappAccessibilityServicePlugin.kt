@@ -71,6 +71,15 @@ class WhatsappAccessibilityServicePlugin : FlutterPlugin, ActivityAware, MethodC
                 WhatsappAccessibilityService.suffix = suffix;
                 result.success(WhatsappAccessibilityService.suffix)
             }
+            "setMessage" -> {
+                val message = call.argument<String>("message")
+                if (message.isNullOrEmpty()) {
+                    return
+                }
+                WhatsappAccessibilityService.isActive = true;
+                WhatsappAccessibilityService.message = message;
+                result.success(WhatsappAccessibilityService.message)
+            }
             else -> result.notImplemented()
         }
     }
